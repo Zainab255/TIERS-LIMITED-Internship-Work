@@ -1,0 +1,117 @@
+exercise1
+
+void main() {
+  // Declare a variable for your name
+  String name = "zainab Ashraf";
+
+  // Declare a variable for your age
+  int age = 20;
+
+  // Declare a variable for your list of favorite colors
+  List<String> favoriteColors = ["Red", "Black"];
+
+  // Print the variables
+  print("Name: $name");
+  print("Age: $age");
+  print("Favorite Colors: $favoriteColors");
+}
+
+exercise2
+void main() {
+  // Declare a number to check
+  int number = 90;
+
+  // Check if the number is even or odd
+  if (number % 2 == 0) {
+    print("$number is even.");
+  } else {
+    print("$number is odd.");
+  }
+}
+
+exercise3
+import 'dart:math';
+
+void main() {
+  double radius = 5.0;
+  double area = calculateAreaOfCircle(radius);
+  print("The area of the circle with radius $radius is $area.");
+}
+double calculateAreaOfCircle(double radius) {
+  return pi * radius * radius;
+}
+
+
+exercise4
+void main() {
+  Car myCar = Car("Cvics", "Camry", 2020);
+
+  myCar.displayDetails();
+}
+
+class Car {
+  String make;
+  String model;
+  int year;
+
+  Car(this.make, this.model, this.year);
+
+  void displayDetails() {
+    print("Car Details:");
+    print("Make: $make");
+    print("Model: $model");
+    print("Year: $year");
+  }
+}
+
+exercise5
+
+void main() {
+  Student student = Student();
+  student.name = "zainab";
+  student.age = 20;
+  student.displayDetails();
+}
+class Student {
+  String _name;
+  int _age;
+  Student() : _name = '', _age = 0;
+  String get name => _name;
+  set name(String name) {
+    _name = name;
+  }
+  int get age => _age;
+
+  set age(int age) {
+    if (age > 0) {
+      _age = age;
+    } else {
+      print("Age must be positive.");
+    }
+  }
+
+  // Method to display student details
+  void displayDetails() {
+    print("Student Details:");
+    print("Name: $name");
+    print("Age: $age");
+  }
+}
+
+
+exercise6
+void main() {
+  Bicycle myBicycle = Bicycle();
+  myBicycle.move();
+}
+class Vehicle {
+  void move() {
+    print("The vehicle is moving.");
+  }
+}
+class Bicycle extends Vehicle {
+  @override
+  void move() {
+    print("The bicycle is moving by pedaling.");
+  }
+}

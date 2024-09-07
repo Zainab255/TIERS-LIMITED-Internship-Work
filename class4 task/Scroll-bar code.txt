@@ -1,0 +1,40 @@
+Scroll Bar code:
+
+import 'package:flutter/material.dart';
+
+class Scroolbar extends StatelessWidget {
+  final List<Color> colors = [
+    Colors.red,
+    Colors.green,
+    Colors.blue,
+    Colors.yellow,
+    Colors.orange,
+    Colors.purple,
+    Colors.brown,
+    Colors.pink,
+    Colors.cyan,
+    Colors.lime,
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemCount: colors.length,
+      itemBuilder: (context, index) {
+        return Container(
+          height: 100.0,
+          color: colors[index],
+          child: Center(
+            child: Text(
+              'Container ${index + 1}',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+}

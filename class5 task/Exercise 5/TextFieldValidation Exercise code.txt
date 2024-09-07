@@ -1,0 +1,69 @@
+Exercise no 5 code:
+
+
+import 'package:flutter/material.dart';
+
+class TextFormFieldWidget extends StatefulWidget {
+  const TextFormFieldWidget({super.key});
+
+  @override
+  _TextFormFieldWidgetState createState() => _TextFormFieldWidgetState();
+}
+
+class _TextFormFieldWidgetState extends State<TextFormFieldWidget> {
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController _controller = TextEditingController();
+  String _inputText = '';
+
+  void _handleSubmitted() {
+    if (_formKey.currentState?.validate() ?? false) {
+      setState(() {
+        _inputText = _controller.text;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('TextFormField Example'),
+        backgroundColor: Colors.teal,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              TextFormField(
+                controller: _controller,
+                decoration: const InputDecoration(
+                  labelText: 'Enter some text',
+                  border: OutlineInputBorder(),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter some text';
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: _handleSubmitted,
+                child: const Text('Submit'),
+              ),
+              const SizedBox(height: 20),
+              Text(
+                _inputText,
+                style: Theme.of(context).textTheme.headlineSmall,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

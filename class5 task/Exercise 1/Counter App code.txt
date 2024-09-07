@@ -1,0 +1,89 @@
+Exercise 1 code:
+
+
+import 'package:flutter/material.dart';
+
+class StateFulCounter extends StatefulWidget {
+  const StateFulCounter({super.key});
+
+  @override
+  _StateFulCounterState createState() => _StateFulCounterState();
+}
+
+class _StateFulCounterState extends State<StateFulCounter> {
+  int _counter = 0;
+
+  void _incrementCounter() {
+    setState(() {
+      _counter++;
+    });
+  }
+
+  void _decrementCounter() {
+    setState(() {
+      _counter--;
+    });
+  }
+
+  void _resetCounter() {
+    setState(() {
+      _counter = 0;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Stateful Counter'),
+        backgroundColor: Colors.teal,
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            const Text(
+              'You have pushed the button this many times:',
+              style: TextStyle(fontSize: 18),
+            ),
+            Text(
+              '$_counter',
+              style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                color: Colors.teal,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  onPressed: _decrementCounter,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.red,
+                  ),
+                  child: const Text('Decrement'),
+                ),
+                const SizedBox(width: 10),
+                ElevatedButton(
+                  onPressed: _resetCounter,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.grey,
+                  ),
+                  child: const Text('Reset'),
+                ),
+                const SizedBox(width: 10),
+                ElevatedButton(
+                  onPressed: _incrementCounter,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.green,
+                  ),
+                  child: const Text('Increment'),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

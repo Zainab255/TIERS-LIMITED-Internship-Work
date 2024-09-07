@@ -1,0 +1,53 @@
+Exercise no 4 code :
+
+import 'package:flutter/material.dart';
+
+class TextFieldWidget extends StatefulWidget {
+  const TextFieldWidget({super.key});
+
+  @override
+  _TextFieldWidgetState createState() => _TextFieldWidgetState();
+}
+
+class _TextFieldWidgetState extends State<TextFieldWidget> {
+  String _text = "";
+
+  void _updateText(String value) {
+    setState(() {
+      _text = value;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('TextField Exercise'),
+        backgroundColor: Colors.teal,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(90.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            TextField(
+              onChanged: _updateText,
+              decoration: InputDecoration(
+                labelText: 'Label Text ',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                prefixIcon: Icon(Icons.person),
+              ),
+            ),
+            const SizedBox(height: 10),
+            Text(
+              _text,
+              style: Theme.of(context).textTheme.headlineSmall,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

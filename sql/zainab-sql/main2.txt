@@ -1,0 +1,175 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'student.dart';
+import 'Dbfile.dart';
+
+class StudentScreen extends StatefulWidget {
+  @override
+  _StudentScreenState createState() => _StudentScreenState();
+}
+
+class _StudentScreenState extends State<StudentScreen> {
+  List<Student> students = [];
+  final dbHelper = DatabaseHelper.instance;
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeAndFetch();
+  }
+
+  void _initializeAndFetch() async {
+    setState(() {
+      isLoading = true; // Indicate loading state
+    });
+    await dbHelper.database; // Initialize database
+    _fetchStudents(); // Fetch data after initialization
+  }
+
+  void _fetchStudents() async {
+    final fetchedStudents = await dbHelper.fetchAllStudents();
+    setState(() {
+      students = fetchedStudents;
+      isLoading = false; // Update loading state
+    });
+  }
+
+
+  void _addStudent() async {
+    final newStudent = Student(id: "1", name: "John Doe", age: 20, semester: "4th");
+    int result = await dbHelper.saveStudent(newStudent);
+    print("Insert result: $result"); // Check if the insertion was successful
+    _fetchStudents(); // Refresh data
+  }
+
+  void _editStudent(Student student) async {
+    await dbHelper.updateStudent(student);
+    _fetchStudents();
+  }
+
+  void _deleteStudent(String id) async {
+    await dbHelper.deleteStudent(id);
+    _fetchStudents();
+  }
+
+  void _showAddEditDialog({Student? student}) {
+    final idController = TextEditingController(text: student?.id ?? '');
+    final nameController = TextEditingController(text: student?.name ?? '');
+    final ageController = TextEditingController(text: student?.age.toString() ?? '');
+    final semesterController = TextEditingController(text: student?.semester ?? '');
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(student == null ? 'Add Student' : 'Edit Student'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: nameController,
+                decoration: InputDecoration(labelText: 'Name'),
+              ),
+              TextField(
+                controller: ageController,
+                decoration: InputDecoration(labelText: 'Age'),
+                keyboardType: TextInputType.number,
+              ),
+              TextField(
+                controller: semesterController,
+                decoration: InputDecoration(labelText: 'Semester'),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                final id = student?.id ?? DateTime.now().millisecondsSinceEpoch.toString();
+                final name = nameController.text;
+                final age = int.parse(ageController.text);
+                final semester = semesterController.text;
+
+                if (student == null) {
+                  _addStudent();
+                } else {
+                  _editStudent(Student(id: id, name: name, age: age, semester: semester));
+                }
+
+                Navigator.of(context).pop();
+              },
+              child: Text('Save'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showDeleteDialog(String id) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Delete Student'),
+          content: Text('Are you sure you want to delete this student?'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text('No'),
+            ),
+            TextButton(
+              onPressed: () {
+                _deleteStudent(id);
+                Navigator.of(context).pop();
+              },
+              child: Text('Yes'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Students'),
+      ),
+      body: isLoading
+          ? Center(child: CircularProgressIndicator())
+          : ListView.builder(
+        itemCount: students.length,
+        itemBuilder: (context, index) {
+          final student = students[index];
+          return ListTile(
+            title: Text(student.name),
+            subtitle: Text('Age: ${student.age}, Semester: ${student.semester}'),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                IconButton(
+                  icon: Icon(Icons.edit),
+                  onPressed: () => _showAddEditDialog(student: student),
+                ),
+                IconButton(
+                  icon: Icon(Icons.delete),
+                  onPressed: () => _showDeleteDialog(student.id),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => _showAddEditDialog(),
+        child: Icon(Icons.add),
+      ),
+    );
+  }
+}

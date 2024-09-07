@@ -1,0 +1,195 @@
+import 'package:flutter/material.dart';
+
+class MyHomePage extends StatefulWidget {
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  int _selectedIndex = 4; // Set the default selected index to ExerciseScreen
+
+  static List<Widget> _widgetOptions = <Widget>[
+    HomeScreen(),
+    AboutScreen(),
+    ContactScreen(),
+    SettingsScreen(),
+    ExerciseScreen(), // New screen added here
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.lightBlue,
+        title: Text(
+          'Welcome My Bottom Navigator App',
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+        ),
+        centerTitle: true,
+      ),
+      body: Center(
+        child: _widgetOptions.elementAt(_selectedIndex),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        color: Colors.blue,
+        shape: CircularNotchedRectangle(),
+        notchMargin: 8.0,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            IconButton(
+              icon: Icon(Icons.home, color: Colors.white),
+              onPressed: () => _onItemTapped(0),
+            ),
+            IconButton(
+              icon: Icon(Icons.info, color: Colors.white),
+              onPressed: () => _onItemTapped(1),
+            ),
+            SizedBox(width: 40), // The dummy child
+            IconButton(
+              icon: Icon(Icons.contact_mail, color: Colors.white),
+              onPressed: () => _onItemTapped(2),
+            ),
+            IconButton(
+              icon: Icon(Icons.settings, color: Colors.white),
+              onPressed: () => _onItemTapped(3),
+            ),
+            IconButton(
+              icon: Icon(Icons.list, color: Colors.white),
+              onPressed: () => _onItemTapped(4), // Button to navigate to ExerciseScreen
+            ),
+          ],
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.sync, color: Colors.blue),
+        onPressed: () {},
+      ),
+    );
+  }
+}
+
+class HomeScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Text(
+          'Home Screen',
+          style: TextStyle(fontSize: 24, color: Colors.green, fontWeight: FontWeight.bold),
+        ),
+      ),
+    );
+  }
+}
+
+class AboutScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Text(
+          'About Screen',
+          style: TextStyle(fontSize: 24, color: Colors.blue, fontWeight: FontWeight.bold),
+        ),
+      ),
+    );
+  }
+}
+
+class ContactScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Text(
+          'Contact Screen',
+          style: TextStyle(fontSize: 24, color: Colors.orange, fontWeight: FontWeight.bold),
+        ),
+      ),
+    );
+  }
+}
+
+class SettingsScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Text(
+          'Settings Screen',
+          style: TextStyle(fontSize: 24, color: Colors.lightGreen, fontWeight: FontWeight.bold),
+        ),
+      ),
+    );
+  }
+}
+
+// New ExerciseScreen class with GridView
+class ExerciseScreen extends StatelessWidget {
+  final List<String> items = [
+    'Ali',
+    'Ahmad',
+    'Muzamil',
+    'Moiz',
+    'Ayesha',
+    'Rubina',
+    'Zainab',
+    'Zubair',
+    'Ali',
+    'Ahmad',
+    'Muzamil',
+    'Moiz',
+    'Ayesha',
+    'Ali',
+    'Ahmad',
+    'Muzamil',
+    'Moiz',
+    'Ayesha',
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Padding(
+        padding: EdgeInsets.all(10.0),
+        child: Wrap(
+          spacing: 10.0, // Space between items
+          runSpacing: 10.0, // Space between rows
+          children: items.map((item) {
+            return Card(
+              color: Colors.lightBlue[100],
+              elevation: 5,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Container(
+                width: (MediaQuery.of(context).size.width - 50) / 6, // Adjust width for two columns
+                child: ListTile(
+                  leading: CircleAvatar(
+                    backgroundColor: Colors.lightBlue,
+                    child: Text(
+                      item[0], // Display the first letter of each name
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                  title: Text(
+                    item,
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+            );
+          }).toList(),
+        ),
+      ),
+    );
+  }
+}

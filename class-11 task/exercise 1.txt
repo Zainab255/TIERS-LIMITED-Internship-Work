@@ -1,0 +1,24 @@
+import 'package:flutter/material.dart';
+
+class class11 extends StatefulWidget {
+  const class11({super.key});
+
+  @override
+  State<class11> createState() => _class11State();
+}
+
+class _class11State extends State<class11> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('app'),
+      ),
+      bottomNavigationBar: BottomAppBar(),
+      body: Column(
+        children: [
+          Text('stack paeg'),
+        ],
+      ),
+    );
+  }
+}

@@ -1,0 +1,325 @@
+import 'package:flutter/material.dart';
+import 'studentmanager.dart';
+import 'students.dart';
+
+class mainstudents extends StatefulWidget {
+  @override
+  _mainstudentsState createState() => _mainstudentsState();
+}
+
+class _mainstudentsState extends State<mainstudents> {
+  List<Student> _students = [];
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadStudents();
+  }
+
+  void _loadStudents() async {
+    List<Student> students = await StudentManager.getAllStudents();
+    setState(() {
+      _students = students;
+      _isLoading = false;
+    });
+  }
+
+  void _showAddDialog(BuildContext context) async {
+    final _formKey = GlobalKey<FormState>();
+    String? _name, _semester;
+    int? _age;
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          alignment: Alignment.center,
+          backgroundColor: Theme.of(context).dialogBackgroundColor,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          title: Text('Add Student', style: Theme.of(context).textTheme.headline6),
+          content: Container(
+            padding: EdgeInsets.all(1.0),
+            child: Container(
+              // elevation: 4.0, // Adds shadow around the card
+              margin: EdgeInsets.all(1.0), // Adds space around the card
+              // shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)), // Rounds the corners of the card
+              child: Padding(
+                padding: const EdgeInsets.all(1.0), // Adds padding inside the card
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min, // Ensures the card wraps its content tightly
+                    children: [
+                      TextFormField(
+                        decoration: InputDecoration(labelText: 'Name'),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter a name';
+                          }
+                          return null;
+                        },
+                        onSaved: (value) => _name = value,
+                      ),
+                      TextFormField(
+                        decoration: InputDecoration(labelText: 'Age'),
+                        keyboardType: TextInputType.number,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your age';
+                          }
+                          return null;
+                        },
+                        onSaved: (value) => _age = int.tryParse(value!),
+                      ),
+                      TextFormField(
+                        decoration: InputDecoration(labelText: 'Semester'),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter a semester';
+                          }
+                          return null;
+                        },
+                        onSaved: (value) => _semester = value,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text('Cancel'),
+              style: TextButton.styleFrom(
+                foregroundColor: Colors.white, backgroundColor: Colors.blue,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                if (_formKey.currentState!.validate()) {
+                  _formKey.currentState!.save();
+                  final student = Student(
+                    id: DateTime.now().toString(),
+                    name: _name!,
+                    age: _age!, // Assuming a default value for simplicity
+                    semester: _semester!,
+                  );
+                  StudentManager.addStudent(student).then((_) {
+                    setState(() {
+                      _students.add(student);
+                    });
+                    Navigator.of(context).pop();
+                  });
+                }
+              },
+              child: Text('Add'),
+              style: TextButton.styleFrom(
+                foregroundColor: Colors.white, backgroundColor: Colors.green,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+
+  void _removeStudent(String id) async {
+    final confirm = await showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: Text('Delete Student'),
+        content: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Text('Are you sure you want to delete this student?'),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: Text('Cancel'),
+            style: TextButton.styleFrom(
+              foregroundColor: Colors.white,
+              backgroundColor: Colors.blue,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            ),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: Text('Delete'),
+            style: TextButton.styleFrom(
+              foregroundColor: Colors.white,
+              backgroundColor: Colors.red,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            ),
+          ),
+        ],
+      ),
+    );
+
+    if (confirm ?? false) {
+      StudentManager.removeStudent(id).then((_) {
+        setState(() {
+          _students.removeWhere((student) => student.id == id);
+        });
+      });
+    }
+  }
+
+
+  void _showEditDialog(BuildContext context, Student student) async {
+    final _formKey = GlobalKey<FormState>();
+    String? _name, _semester;
+    int? _age;
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Edit Student'),
+          content: Container(
+            padding: EdgeInsets.all(1.0),
+            child: Container(
+              // elevation: 4.0, // Adds shadow around the card
+              margin: EdgeInsets.all(1.0), // Adds space around the card
+              // shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)), // Rounds the corners of the card
+              child: Padding(
+                padding: const EdgeInsets.all(1.0), // Adds padding inside the card
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min, // Ensures the card wraps its content tightly
+                    children: [
+                      TextFormField(
+                        initialValue: student.name,
+                        decoration: InputDecoration(labelText: 'Name'),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter a name';
+                          }
+                          return null;
+                        },
+                        onSaved: (value) => _name = value,
+                      ),
+                      TextFormField(
+                        initialValue: student.age.toString(),
+                        decoration: InputDecoration(labelText: 'Age'),
+                        keyboardType: TextInputType.number,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter an age';
+                          }
+                          return null;
+                        },
+                        onSaved: (value) => _age = int.tryParse(value!),
+                      ),
+                      TextFormField(
+                        initialValue: student.semester,
+                        decoration: InputDecoration(labelText: 'Semester'),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter a semester';
+                          }
+                          return null;
+                        },
+                        onSaved: (value) => _semester = value,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text('Cancel'),
+              style: TextButton.styleFrom(
+                foregroundColor: Colors.white, backgroundColor: Colors.blue,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                if (_formKey.currentState!.validate()) {
+                  _formKey.currentState!.save();
+                  final updatedStudent = Student(
+                    id: student.id,
+                    name: _name!,
+                    age: _age!,
+                    semester: _semester!,
+                  );
+                  StudentManager.addStudent(updatedStudent).then((_) {
+                    setState(() {
+                      int index = _students.indexWhere((element) => element.id == student.id);
+                      if (index != -1) {
+                        _students[index] = updatedStudent;
+                      }
+                    });
+                    Navigator.of(context).pop();
+                  });
+                }
+              },
+              child: Text('Update'),
+              style: TextButton.styleFrom(
+                foregroundColor: Colors.white, backgroundColor: Colors.green,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('MY Crud Operation App' , style: TextStyle(color: Colors.white , fontSize: 20, fontWeight: FontWeight.bold),),
+        centerTitle: true,
+        backgroundColor: Colors.blue,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.add , color: Colors.white,),
+            onPressed: () => _showAddDialog(context),
+          ),
+        ],
+      ),
+      body:_isLoading
+          ? Center(child: CircularProgressIndicator())
+          : Column(
+        children: _students.map((student) => Card(
+          margin: EdgeInsets.all(8.0), // Space around each card
+          child: ListTile(
+            title: Text(
+              student.name,
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            subtitle: Text(
+              'Age: ${student.age}, Semester: ${student.semester}',
+              style: TextStyle(fontSize: 15),
+            ),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                IconButton(
+                  icon: Icon(Icons.edit, color: Colors.blue),
+                  onPressed: () => _showEditDialog(context, student),
+                ),
+                IconButton(
+                  icon: Icon(Icons.delete, color: Colors.red),
+                  onPressed: () => _removeStudent(student.id),
+                ),
+              ],
+            ),
+          ),
+        )).toList(),
+      )
+
+    );
+  }
+}

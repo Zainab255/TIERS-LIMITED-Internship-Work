@@ -1,0 +1,134 @@
+import 'package:flutter/material.dart';
+import 'mainpage.dart'; // Import your main page or screens where needed
+
+class CustomDrawer extends StatelessWidget {
+  const CustomDrawer({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: <Widget>[
+          DrawerHeader(
+            decoration: BoxDecoration(
+              color: Colors.blue,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CircleAvatar(
+                  radius: 30,
+                  backgroundColor: Colors.white, // Background color of the circle
+                  child: Icon(
+                    Icons.account_circle, // Use any icon you like here
+                    size: 40, // Adjust the size of the icon
+                    color: Colors.blue, // Color of the icon
+                  ),
+                ),
+                SizedBox(height: 4,),
+                Text(
+                  'Hello User',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                  ),
+                ),
+                SizedBox(height: 2), // Adjust as needed for spacing
+                Text(
+                  'example123@gmail.com',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 10,
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          ListTile(
+            leading: Icon(Icons.dashboard),
+            title: Text('Dashboard'),
+            onTap: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => contentScreen()),
+              );
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.contact_mail),
+            title: Text('Contact'),
+            onTap: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => ContactScreen()),
+              );
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.event),
+            title: Text('Events'),
+            onTap: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => EventScreen()),
+              );
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.note),
+            title: Text('Notes'),
+            onTap: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => NotesScreen()),
+              );
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.settings),
+            title: Text('Settings'),
+            onTap: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => SettingsScreen()),
+              );
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.privacy_tip),
+            title: Text('Privacy Policy'),
+            onTap: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => PrivacyPolicyScreen()),
+              );
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.feedback),
+            title: Text('Feedback'),
+            onTap: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => FeedbackScreen()),
+              );
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.logout),
+            title: Text('Logout'),
+            onTap: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => contentScreen()),
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}

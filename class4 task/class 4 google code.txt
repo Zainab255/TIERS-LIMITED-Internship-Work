@@ -1,0 +1,276 @@
+import 'package:flutter/material.dart';
+File 1:
+
+import 'package:mainapp/MyStatelessWidget.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
+      ),
+      home: MyStatelessWidget(),
+    );
+  }
+}
+
+
+File 2:
+import 'package:flutter/material.dart';
+import 'Header.dart';
+import 'Footer.dart';
+
+class MyStatelessWidget extends StatelessWidget {
+  const MyStatelessWidget({super.key});
+
+  Widget _searchButtons() {
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextButton(
+              onPressed: () {
+                // Add your onPressed logic here
+              },
+              style: TextButton.styleFrom(
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
+                backgroundColor: Color(959292),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+                child: Text(
+                  'Google Search',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ),
+            SizedBox(width: 8.0), // Space between buttons
+            TextButton(
+              onPressed: () {
+                // Add your onPressed logic here
+              },
+              style: TextButton.styleFrom(
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
+                backgroundColor: Color(656464),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+                child: Text(
+                  "I'm Feeling Lucky",
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: 10.0),
+        RichText(
+          text: TextSpan(
+            text: 'Google offered in: ',
+            style: TextStyle(color: Colors.white54),
+            children: <TextSpan>[
+              TextSpan(
+                text: 'اردو ',
+                style: TextStyle(color: Colors.blue),
+              ),
+              TextSpan(
+                text: 'پښتو ',
+                style: TextStyle(color: Colors.blue),
+              ),
+              TextSpan(
+                text: 'سنڌي',
+                style: TextStyle(color: Colors.blue),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+
+  Widget _searchInput() {
+    return TextField(
+      style: TextStyle(color: Colors.white),  // Set text color to white
+      decoration: InputDecoration(
+        hintStyle: TextStyle(color: Colors.white54),
+        prefixIcon: Icon(Icons.search, color: Colors.grey),
+        suffixIcon: Padding(
+          padding: EdgeInsets.only(right: 10.0), // Adjust the padding as needed
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Image.asset('assets/images/mic-icon.png', width: 24.0, height: 24.0),
+              SizedBox(width: 8.0),
+              Image.asset('assets/images/scan.png', width: 24.0, height: 24.0),
+            ],
+          ),
+        ),
+
+        filled: true,
+        fillColor: Colors.black12,
+        contentPadding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.black87,
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(60.0),
+        child: Header(),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset('assets/images/google.png', color: Colors.white),
+            SizedBox(height: 16.0), // Space between image and input field
+            Container(
+              width: 600.0, // Width of the search bar
+              child: _searchInput(),
+            ),
+            SizedBox(height: 16.0), // Space between input field and buttons
+            _searchButtons(),
+          ],
+        ),
+      ),
+      bottomNavigationBar: PreferredSize(
+        preferredSize: Size.fromHeight(60.0),
+        child: Footer(),
+      ),
+    );
+  }
+}
+
+File 3 :
+import 'package:flutter/material.dart';
+
+class Header extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Color(272626),
+      child: SafeArea(
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Text('Gmail', style: TextStyle(color: Colors.white, fontSize: 16.0)),
+              SizedBox(width: 20.0),
+              Text('Images', style: TextStyle(color: Colors.white, fontSize: 16.0)),
+              SizedBox(width: 20.0),
+              Icon(Icons.science, color: Colors.white, size: 24.0),
+              SizedBox(width: 20.0),
+              Icon(Icons.apps, color: Colors.white, size: 24.0),
+              SizedBox(width: 20.0),
+              CircleAvatar(
+                radius: 16.0,
+                backgroundColor: Colors.red,
+                child: Text(
+                  'M',
+                  style: TextStyle(color: Colors.white, fontSize: 16.0),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
+File 4 :
+import 'package:flutter/material.dart';
+
+class Footer extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.black54,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(13.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(
+                  'Pakistan',
+                  style: TextStyle(fontSize: 16, color: Colors.white),
+                ),
+              ],
+            ),
+          ),
+          Divider(color: Colors.white30),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Text('About', style: TextStyle(color: Colors.white)),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Text('Advertising', style: TextStyle(color: Colors.white)),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Text('Business', style: TextStyle(color: Colors.white)),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Text('How Search works', style: TextStyle(color: Colors.white)),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Text('Privacy', style: TextStyle(color: Colors.white)),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Text('Terms', style: TextStyle(color: Colors.white)),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Text('Settings', style: TextStyle(color: Colors.white)),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+
+
+
+

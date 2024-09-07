@@ -1,0 +1,395 @@
+Exercise 1 :
+
+
+import 'package:flutter/material.dart';
+
+class Counter extends StatefulWidget {
+  const Counter({super.key});
+
+  @override
+  _CounterState createState() => _CounterState();
+}
+
+class _CounterState extends State<Counter> {
+  int _counter = 0;
+
+  void _incrementCounter() {
+    setState(() {
+      _counter++;
+    });
+  }
+
+  void _decrementCounter() {
+    setState(() {
+      _counter--;
+    });
+  }
+
+  void _resetCounter() {
+    setState(() {
+      _counter = 0;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Counter App'),
+        backgroundColor: Colors.deepPurple,
+      ),
+      body: Container(
+        child: Card(
+          elevation: 8,
+          margin: const EdgeInsets.all(10),
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                const Text(
+                  'Button Click Counter',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  '$_counter',
+                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                    color: Colors.deepPurple,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    ElevatedButton(
+                      onPressed: _decrementCounter,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.redAccent,
+                      ),
+                      child: const Text('Decrement'),
+                    ),
+                    ElevatedButton(
+                      onPressed: _resetCounter,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.grey,
+                      ),
+                      child: const Text('Reset'),
+                    ),
+                    ElevatedButton(
+                      onPressed: _incrementCounter,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.greenAccent,
+                      ),
+                      child: const Text('Increment'),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
+
+
+
+Exercise 2 code : 
+
+import 'package:flutter/material.dart';
+
+class OptionSelector extends StatefulWidget {
+  const OptionSelector({super.key});
+
+  @override
+  _OptionSelectorState createState() => _OptionSelectorState();
+}
+
+class _OptionSelectorState extends State<OptionSelector> {
+  List<bool> _selections = [false, true]; // Sample items
+
+  void _updateSelection(int index, bool? value) {
+    setState(() {
+      _selections[index] = value ?? false;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Selections'),
+        backgroundColor: Colors.deepOrange,
+      ),
+      body: ListView.builder(
+        padding: const EdgeInsets.all(100),
+        itemCount: _selections.length,
+        itemBuilder: (context, index) {
+          return Card(
+            elevation: 0,
+            margin: const EdgeInsets.symmetric(vertical: 10),
+            child: CheckboxListTile(
+              title: Text('Choice ${index + 1}' , style: TextStyle(fontSize: 20.0  , ) ),
+              value: _selections[index],
+              onChanged: (value) => _updateSelection(index, value),
+              activeColor: Colors.deepOrange,
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+
+
+Exercise no 3 code :
+
+import 'package:flutter/material.dart';
+
+class SwitchApp extends StatefulWidget {
+  const SwitchApp({super.key});
+
+  @override
+  _CustomSwitchState createState() => _CustomSwitchState();
+}
+
+class _CustomSwitchState extends State<SwitchApp> {
+  bool _isSwitched = false;
+
+  void _toggleSwitch(bool value) {
+    setState(() {
+      _isSwitched = value;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Custom Switch'),
+        backgroundColor: Colors.deepPurple,
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Transform.scale(
+              scale: 1.5,
+              child: Switch(
+                value: _isSwitched,
+                onChanged: _toggleSwitch,
+                activeColor: Colors.deepPurple,
+                inactiveThumbColor: Colors.grey,
+                inactiveTrackColor: Colors.grey[300],
+              ),
+            ),
+            const SizedBox(height: 20),
+            Text(
+              _isSwitched ? 'Switch is ON' : 'Switch is OFF',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: _isSwitched ? Colors.deepPurple : Colors.black,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+
+Exercise no 4 code :
+
+import 'package:flutter/material.dart';
+
+class TextFieldWidget extends StatefulWidget {
+  const TextFieldWidget({Key? key}) : super(key: key);
+
+  @override
+  _TextFieldWidgetState createState() => _TextFieldWidgetState();
+}
+
+class _TextFieldWidgetState extends State<TextFieldWidget> {
+  String _text = "";
+
+  void _updateText(String value) {
+    setState(() {
+      _text = value;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Custom TextField '),
+        backgroundColor: Colors.teal,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            TextField(
+              onChanged: _updateText,
+              decoration: InputDecoration(
+                labelText: 'Enter text',
+                hintText: 'Type something...',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12.0),
+                ),
+                prefixIcon: Icon(Icons.person),
+              ),
+            ),
+            SizedBox(height: 20),
+            Text(
+              'Typed Text: $_text',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+
+Exercise no 5 code:
+
+import 'package:flutter/material.dart';
+
+class TextForm extends StatefulWidget {
+  const TextForm({Key? key}) : super(key: key);
+
+  @override
+  _TextFormFieldWidgetState createState() => _TextFormFieldWidgetState();
+}
+
+class _TextFormFieldWidgetState extends State<TextForm> {
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController _controller1 = TextEditingController();
+  final TextEditingController _controller2 = TextEditingController();
+  String _inputText1 = '';
+  String _inputText2 = '';
+
+  void _handleSubmitted() {
+    if (_formKey.currentState?.validate() ?? false) {
+      setState(() {
+        _inputText1 = _controller1.text;
+        _inputText2 = _controller2.text;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('TextFormField'),
+        backgroundColor: Colors.teal,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              TextFormField(
+                controller: _controller1,
+                decoration: const InputDecoration(
+                  labelText: 'Enter Name',
+                  border: OutlineInputBorder(),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter some text';
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 20),
+              TextFormField(
+                controller: _controller2,
+                decoration: const InputDecoration(
+                  labelText: 'Enter Qualification',
+                  border: OutlineInputBorder(),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter some text';
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: _handleSubmitted,
+                child: const Text('Submit'),
+              ),
+              SizedBox(height: 20),
+              Text(
+                'Name: $_inputText1\nQualification: $_inputText2',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
+main.dart file code :
+
+import 'package:flutter/material.dart';
+import 'Checkbox.dart';
+import 'Switch.dart';
+import 'TextFormField.dart';
+import 'TextField.dart';
+import 'StateFulCounter.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
+      ),
+      // home: OptionSelector(),
+      // home: SwitchApp(),
+      home: const TextForm(),
+      // home: TextFieldWidget(),
+      // home: Counter(),
+    );
+  }
+}

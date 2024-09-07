@@ -1,0 +1,172 @@
+import 'package:flutter/material.dart';
+import 'drawer.dart'; // Import your custom drawer widget
+
+class mainpage extends StatelessWidget {
+  const mainpage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.blueAccent,
+        title: Text('Main Page'),
+        centerTitle: true,
+        titleTextStyle: TextStyle(
+          color: Colors.white,
+          fontSize: 24,
+        ),
+      ),
+      drawer: CustomDrawer(),
+      body: Center(
+        child: Text('main page'),
+      ),
+    );
+  }
+}
+
+class contentScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.greenAccent,
+        title: Text('Dashboard'),
+        centerTitle: true,
+        titleTextStyle: TextStyle(
+          color: Colors.white,
+          fontSize: 24,
+        ),
+      ),
+      drawer: CustomDrawer(),
+      body: Center(
+        child: Text('Dashboard Screen'),
+      ),
+    );
+  }
+}
+
+class ContactScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.blueGrey,
+        title: Text('Contact'),
+        centerTitle: true,
+        titleTextStyle: TextStyle(
+          color: Colors.white,
+          fontSize: 24,
+        ),
+      ),
+      drawer: CustomDrawer(),
+      body: Center(
+        child: Text('Contact Screen'),
+      ),
+    );
+  }
+}
+
+class EventScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.purpleAccent,
+        title: Text('Events'),
+        centerTitle: true,
+        titleTextStyle: TextStyle(
+          color: Colors.white,
+          fontSize: 24,
+        ),
+      ),
+      drawer: CustomDrawer(),
+      body: Center(
+        child: Text('Events Screen'),
+      ),
+    );
+  }
+}
+
+class NotesScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.green,
+        title: Text('Notes'),
+        centerTitle: true,
+        titleTextStyle: TextStyle(
+          color: Colors.white,
+          fontSize: 24,
+        ),
+      ),
+      drawer: CustomDrawer(),
+      body: Center(
+        child: Text('Notes Screen'),
+      ),
+    );
+  }
+}
+
+class SettingsScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.redAccent,
+        title: Text('Settings'),
+        centerTitle: true,
+        titleTextStyle: TextStyle(
+          color: Colors.white,
+          fontSize: 24,
+        ),
+      ),
+      drawer: CustomDrawer(),
+      body: Center(
+        child: Text('Settings Screen'),
+      ),
+    );
+  }
+}
+
+class PrivacyPolicyScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.pinkAccent,
+        title: Text('Privacy Policy'),
+        centerTitle: true,
+        titleTextStyle: TextStyle(
+          color: Colors.white,
+          fontSize: 24,
+        ),
+      ),
+      drawer: CustomDrawer(),
+      body: Center(
+        child: Text('Privacy Policy Screen'),
+      ),
+    );
+  }
+}
+
+class FeedbackScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.orange,
+        title: Text('Feedback'),
+        centerTitle: true,
+        titleTextStyle: TextStyle(
+          color: Colors.white,
+          fontSize: 24,
+        ),
+      ),
+      drawer: CustomDrawer(),
+      body: Center(
+        child: Text('Feedback Screen'),
+      ),
+    );
+  }
+}

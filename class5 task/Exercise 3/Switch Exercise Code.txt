@@ -1,0 +1,48 @@
+Exercise no 3 code:
+
+
+import 'package:flutter/material.dart';
+
+class SwitchWidget extends StatefulWidget {
+  const SwitchWidget({super.key});
+
+  @override
+  _SwitchWidgetState createState() => _SwitchWidgetState();
+}
+
+class _SwitchWidgetState extends State<SwitchWidget> {
+  bool _isSwitched = false;
+
+  void _toggleSwitch(bool value) {
+    setState(() {
+      _isSwitched = value;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Switch Example'),
+        backgroundColor: Colors.teal,
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Switch(
+              value: _isSwitched,
+              onChanged: _toggleSwitch,
+              activeColor: Colors.teal,
+            ),
+            const SizedBox(height: 20),
+            Text(
+              _isSwitched ? 'Switch is ON' : 'Switch is OFF',
+              style: Theme.of(context).textTheme.headlineSmall,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

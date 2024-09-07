@@ -1,0 +1,211 @@
+import 'package:flutter/material.dart';
+
+class form extends StatefulWidget {
+  @override
+  _formState createState() => _formState();
+}
+
+class _formState extends State<form> {
+  int _selectedIndex = 0;
+
+  static List<Widget> _widgetOptions = <Widget>[
+    HomeScreen(),
+    AboutScreen(),
+    ContactScreen(),
+    SettingsScreen(),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.lightBlue,
+        title: Text(
+          'Welcome My Form Radio Widget App',
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+        ),
+        centerTitle: true,
+      ),
+      body: Center(
+        child: _widgetOptions.elementAt(_selectedIndex),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        color: Colors.blue,
+        shape: CircularNotchedRectangle(),
+        notchMargin: 8.0,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            IconButton(
+              icon: Icon(Icons.home, color: Colors.white),
+              onPressed: () => _onItemTapped(0),
+            ),
+            IconButton(
+              icon: Icon(Icons.info, color: Colors.white),
+              onPressed: () => _onItemTapped(1),
+            ),
+            SizedBox(width: 40), // The dummy child
+            IconButton(
+              icon: Icon(Icons.contact_mail, color: Colors.white),
+              onPressed: () => _onItemTapped(2),
+            ),
+            IconButton(
+              icon: Icon(Icons.settings, color: Colors.white),
+              onPressed: () => _onItemTapped(3),
+            ),
+          ],
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.sync, color: Colors.blue),
+        onPressed: () {},
+      ),
+    );
+  }
+}
+
+class HomeScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: McqScreen(),
+    );
+  }
+}
+
+class McqScreen extends StatefulWidget {
+  @override
+  _McqScreenState createState() => _McqScreenState();
+}
+
+class _McqScreenState extends State<McqScreen> {
+  // Example data for questions and options
+  final Map<String, List<String>> _questions = {
+    " What does API stand for?":
+    ["Application Programming Interface", "Application Protocol Interface", "Application Programming Interaction" , "Application Process Integration"],
+    "Which HTTP method is used to request data from a specified resource?":
+    [" POST "  , "GET"  ,  "PUT" ,  "DELETE"],
+    "What does REST stand for in RESTful API?" : [ "Representational State Transfer " ,  "Representational Syntax Transfer" ,   "Reliable State Transfer"  ,  "Reliable Syntax Transfer"],
+    "Which status code is returned when a resource is successfully created using an API?" : [ "200" , "201" ,"400" , "404"],
+    " What is the purpose of an API key?" : ["To encrypt data sent in API requests" , "To authenticate and authorize users accessing the API" , "To define the structure of the API" ,  "To format the response data"],
+  };
+
+  // Store selected answers
+  final Map<String, int?> _selectedAnswers = {};
+
+  // Handle radio button value change
+  void _handleRadioValueChange(String question, int? value) {
+    setState(() {
+      _selectedAnswers[question] = value;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: ListView(
+          children: _questions.keys.map((question) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 16.0),
+                  child: Text(
+                    question,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 8),
+                Column(
+                  children: List<Widget>.generate(_questions[question]!.length, (index) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 4.0),
+                      child: Row(
+                        children: [
+                          Radio<int>(
+                            value: index,
+                            groupValue: _selectedAnswers[question],
+                            onChanged: (value) {
+                              _handleRadioValueChange(question, value);
+                            },
+                            activeColor: Colors.blueAccent,
+                          ),
+                          Text(
+                            _questions[question]![index],
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        ],
+                      ),
+                    );
+                  }),
+                ),
+                Divider(color: Colors.grey),
+
+              ],
+            );
+          }).toList(),
+        ),
+        
+      ),
+    );
+  }
+
+}
+
+
+
+class AboutScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Text(
+          'About Screen',
+          style: TextStyle(fontSize: 24, color: Colors.blue, fontWeight: FontWeight.bold),
+        ),
+      ),
+    );
+  }
+}
+
+class ContactScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Text(
+          'Contact Screen',
+          style: TextStyle(fontSize: 24, color: Colors.orange, fontWeight: FontWeight.bold),
+        ),
+      ),
+    );
+  }
+}
+
+class SettingsScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Text(
+          'Settings Screen',
+          style: TextStyle(fontSize: 24, color: Colors.lightGreen, fontWeight: FontWeight.bold),
+        ),
+      ),
+    );
+  }
+}
+
+
